@@ -1,0 +1,32 @@
+@font-face {
+	font-family: "Quicksand";
+	src: url("/static/fonts/Quicksand-Medium.woff2") format("woff2"), url("/static/fonts/Quicksand-Medium.woff") format("woff");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+* {
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	font-family: "Quicksand";
+}
+input,
+button {
+	outline: none;
+}
+.ctrl-btn {
+	width: 45px;
+	height: 45px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+input.invalid {
+	color: red !important;
+}
+input.valid {
+	color: lime !important;
+}

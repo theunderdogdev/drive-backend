@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%- include ("./base.ejs"); %>
+	</head>
+	<body>
+		<% if (parentid != '6295a9723526db756e30966e') { %>
+
+		<a href="/folders/<%=parentid%>" class="btn btn-outline-primary">&lt;&#x3d;</a>
+		<% } %> <% if (folders.length > 0) { %> <% for( let i = 0; i < folders.length; i++ ) { %>
+		<a href="/folders/<%=folders[i]._id%>" class="btn btn-outline-primary"><%= folders[i].pwd %> </a>
+		<% } %> <% } %>
+	</body>
+</html>

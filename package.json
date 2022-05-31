@@ -1,0 +1,16 @@
+{
+	"name": "drivebend",
+	"version": "1.0.0",
+	"description": "Backend Node Js server for drive",
+	"main": "server.js",
+	"scripts": {
+		"start": "nodemon server.js"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"ejs": "^3.1.8",
+		"express": "^4.18.1",
+		"mongoose": "^6.3.4"
+	}
+}
