@@ -1,14 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<%- include ("./base.ejs"); %>
-	</head>
-	<body>
-		<% if (parentid != '6295a9723526db756e30966e') { %>
 
-		<a href="/folders/<%=parentid%>" class="btn btn-outline-primary">&lt;&#x3d;</a>
-		<% } %> <% if (folders.length > 0) { %> <% for( let i = 0; i < folders.length; i++ ) { %>
-		<a href="/folders/<%=folders[i]._id%>" class="btn btn-outline-primary"><%= folders[i].pwd %> </a>
-		<% } %> <% } %>
-	</body>
+<head>
+	<%- include ("./base.ejs"); %>
+</head>
+
+<body>
+	<%- include ("./addressbar.ejs"); %>
+
+		<%# include ("./contextmenu.ejs") %>
+			<div class="fluid-container my-4 content px-3">
+				<a href="/" class="btn btn-outline-primary">Main</a>
+			</div>
+			<div class="fluid-container my-4 px-3">
+				<div class="folders">
+					<% if (parentid !='6295a9723526db756e30966e' ) { %>
+						<a href="/folders/<%=parentid%>" data-pwd="<%= parname %>" class="folder-link">
+							<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+								class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+								<path fill-rule="evenodd"
+									d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
+							</svg>
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="35" height="35">
+								<path fill="#FFA000"
+									d="M40,12H22l-4-4H8c-2.2,0-4,1.8-4,4v8h40v-4C44,13.8,42.2,12,40,12z" />
+								<path fill="#FFCA28"
+									d="M40,12H8c-2.2,0-4,1.8-4,4v20c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V16C44,13.8,42.2,12,40,12z" />
+							</svg>
+							<h5 class="name">
+								<%= parname %>
+							</h5>
+						</a>
+						<% } %>
+							<% if (folders.length> 0) { %> <% for( let i=0; i < folders.length; i++ ) { %>
+									<a href="/folders/<%=folders[i]._id%>" data-pwd="<%= folders[i].pwd %>"
+										class="folder-link">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="35"
+											height="35">
+											<path fill="#FFA000"
+												d="M40,12H22l-4-4H8c-2.2,0-4,1.8-4,4v8h40v-4C44,13.8,42.2,12,40,12z" />
+											<path fill="#FFCA28"
+												d="M40,12H8c-2.2,0-4,1.8-4,4v20c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V16C44,13.8,42.2,12,40,12z" />
+										</svg>
+										<h5 class="name">
+											<%= folders[i].pwd %>
+										</h5>
+									</a>
+									<% } %>
+										<% } %>
+
+
+				</div>
+
+
+			</div>
+
+			<div id="alerts"></div>
+</body>
+<script>
+	document.body.onload = () => {
+		const tl = gsap.timeline({ defaults: { ease: "power4.inOut", duration: 0.75 } });
+		tl.fromTo('.folder-link', { autoAlpha: 0, y: -100 }, { autoAlpha: 1, y: 0, stagger: 0.25 });
+	}
+</script>
+
 </html>

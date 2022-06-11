@@ -1,0 +1,144 @@
+<div id="addressbar">
+	<div class="cont">
+		<span class="lg linux-bracket">&mdash;</span><span class="lg linux-bracket">&mdash;</span><span
+			class="lg linux-bracket">&#40;</span> drive@drive <span class="lg linux-bracket">&#41;</span><span
+			class="lg linux-bracket">&mdash;</span><span class="lg linux-bracket">&#91;</span> someUser <span
+			class="lg linux-bracket">&#93;</span>
+	</div>
+	<div class="vertical">
+		<span class="lg linux-bracket">&mdash;</span> <span class="lg linux-bracket">&mdash;</span>
+	</div>
+	<div class="cont d-flex">
+		<span class="lg linux-bracket">&mdash;</span><span class="lg linux-bracket">&mdash;</span>
+		<div class="input-group">
+			<input type="text" aria-label="First name" id="parent" class="form-control" value="<%-parname%>" disabled>
+			<input type="text" class="form-control" id="address" placeholder="Enter file/folder name" />
+
+		</div>
+	</div>
+</div>
+<button class="btn btn-outline-primary" id="create-folder">
+	<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus-lg"
+		viewBox="0 0 16 16">
+		<path fill-rule="evenodd"
+			d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+	</svg>
+</button>
+
+<style>
+	.form-control:disabled {
+		background-color: #f8f8f8;
+	}
+
+	#create-folder {
+		z-index: 2;
+		width: 40px;
+		height: 40px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 25px;
+		position: fixed;
+		top: 10px;
+		right: 10px;
+		border-radius: 50%;
+		padding: 0px;
+
+	}
+
+	#parent {
+		max-width: 135px;
+	}
+
+	#addressbar {
+		width: 100%;
+		position: fixed;
+		top: 0px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+		padding: 20px;
+		font-size: 20px;
+	}
+
+	#address {
+		display: inline;
+	}
+
+	.vertical {
+		width: fit-content;
+		height: fit-content;
+		position: absolute;
+		top: 40px;
+		left: 0px;
+		font-size: 22px !important;
+		transform: rotate(90deg);
+	}
+
+	div.cont {
+		width: 100%;
+		align-self: flex-start;
+	}
+</style>
+<script>
+	const createAlert = (type, text) => {
+		$('#alerts').append(`<div class="alert alert-${type} alert-dismissible" role="alert">${text}</div>`).addClass('show');
+		setTimeout(() => {
+			$('#alerts').empty();
+		}, 5000);
+	};
+	$(document).ready(function () {
+		const adrBar = $("#address");
+		$("#create-folder").click(function () {
+
+			let path = adrBar
+				.val()
+				.replace(/\/{2,}/g, "/")
+				.replace(/\/+$/, "");
+			if (path !== "" && path !== "/") {
+				adrBar.val("/" + path);
+				const folderArray = path.split("/");
+				let currFolderName;
+				let parentFolder;
+				let parid = ("" + window.location).split("/");
+				parid = parid[parid.length - 1];
+				console.log(folderArray);
+				if (path !== 'User' || path !== '/') {
+					currFolderName = "/" + folderArray[folderArray.length - 1];
+				}
+				else {
+					currFolderName = "/User";
+					parid = "6295a9723526db756e30966e";
+				}
+				console.log(`curr:${currFolderName} parid: ${parid}`);
+				$.ajax({
+					url: "/createfolder",
+					type: "POST",
+					contentType: "application/json",
+					data: JSON.stringify({
+						pwd: currFolderName,
+						parid: parid
+					}),
+					success: function (resp) {
+						console.log(resp);
+						if (resp.msg) {
+							createAlert('success', resp.msg);
+						}
+						else {
+							createAlert('danger', resp.err);
+						}
+					},
+				});
+			}
+			else {
+				createAlert('danger', "Empty folder name");
+
+			}
+
+
+		});
+	});
+
+</script>
